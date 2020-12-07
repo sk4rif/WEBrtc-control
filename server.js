@@ -1,10 +1,14 @@
-const fs = requiere('fs');
-const path = requiere('path');
-const url = requiere('url');
-var httpServer = requiere('http');
+// http://127.0.0.1:1000
+// http://localhost:1000
 
-const ioServer = requiere('socket.io');
-const RTCMulticonnectionServer = requiere('rtcmutlitconnection-server');
+
+const fs = require('fs');
+const path = require('path');
+const url = require('url');
+var httpServer = require('http');
+
+const ioServer = require('socket.io');
+const RTCMultiConnectionServer = require('rtcmulticonnection-server');
 
 var PORT = 1000;
 var isUseHTTPs = false;
@@ -99,15 +103,6 @@ function serverHandler(request, response) {
             }
         }
 
-        ('Screen-Sharing').forEach(function(fname) {
-            try {
-                if (filename.indexOf(fname + '.html') !== -1) {
-                    filename = filename.replace(fname + '.html', fname.toLowerCase() + '.html');
-                }
-            } catch (e) {
-                pushLogs(config, 'forEach', e);
-            }
-        });
 
         var stats;
 
