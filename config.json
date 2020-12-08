@@ -1,17 +1,18 @@
 {
-    "socketURL" : "/",
+    "socketURL": "/",
     "dirPath": "",
-    "homePage": "/demos/index.html",
+    "homePage": "demos/index.html",
     "socketMessageEvent": "RTCMultiConnection-Message",
     "socketCustomEvent": "RTCMultiConnection-Custom-Message",
     "port": "1000",
     "enableLogs": "false",
     "autoRebootServerOnFailure": "false",
-    "isUseHTTPs": "false",
+    "isUseHTTPs" : "false",
     "sslKey": "./fake-keys/privatekey.pem",
     "sslCert": "./fake-keys/certificate.pem",
     "sslCabundle": "",
     "enableAdmin": "true",
     "adminUserName": "username",
     "adminPassword": "password"
-}
+
+  }
