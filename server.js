@@ -1,6 +1,5 @@
-// http://127.0.0.1:1000
-// http://localhost:1000
-
+// http://127.0.0.1:9001
+// http://localhost:9001
 
 const fs = require('fs');
 const path = require('path');
@@ -10,7 +9,7 @@ var httpServer = require('http');
 const ioServer = require('socket.io');
 const RTCMultiConnectionServer = require('rtcmulticonnection-server');
 
-var PORT = 1000;
+var PORT = 9001;
 var isUseHTTPs = false;
 
 const jsonPath = {
@@ -28,7 +27,7 @@ config = getBashParameters(config, BASH_COLORS_HELPER);
 
 // if user didn't modifed "PORT" object
 // then read value from "config.json"
-if(PORT === 1000) {
+if(PORT === 9001) {
     PORT = config.port;
 }
 if(isUseHTTPs === false) {
@@ -40,8 +39,9 @@ function serverHandler(request, response) {
     // even if external codes are overriding it
     config = getValuesFromConfigJson(jsonPath);
     config = getBashParameters(config, BASH_COLORS_HELPER);
-     // HTTP_GET handling code goes below
-     try {
+
+    // HTTP_GET handling code goes below
+    try {
         var uri, filename;
 
         try {
@@ -90,6 +90,14 @@ function serverHandler(request, response) {
                 matched = true;
             }
         });
+
+        // files from node_modules
+        ['RecordRTC.js', 'FileBufferReader.js', 'getStats.js', 'getScreenId.js', 'adapter.js', 'MultiStreamsMixer.js'].forEach(function(item) {
+            if (filename.indexOf(resolveURL('/node_modules/')) !== -1 && filename.indexOf(resolveURL(item)) !== -1) {
+                matched = true;
+            }
+        });
+
         if (filename.search(/.js|.json/g) !== -1 && !matched) {
             try {
                 response.writeHead(404, {
@@ -103,6 +111,15 @@ function serverHandler(request, response) {
             }
         }
 
+        ['Video-Broadcasting', 'Screen-Sharing', 'Switch-Cameras'].forEach(function(fname) {
+            try {
+                if (filename.indexOf(fname + '.html') !== -1) {
+                    filename = filename.replace(fname + '.html', fname.toLowerCase() + '.html');
+                }
+            } catch (e) {
+                pushLogs(config, 'forEach', e);
+            }
+        });
 
         var stats;
 
